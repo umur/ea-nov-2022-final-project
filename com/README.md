@@ -1,3 +1,34 @@
+# Enterprise Architecture (CS544) Project
+
+## Project Docker Repo:
+
+All container images must be pushed to docker hub repository using:
+
+1. Using terminal/cmd-line:
+    ```sh
+        docker login --username <USERNAME>
+    ```
+
+    Enter Password when prompted
+
+2. Tag the image you want to push:
+
+    ```sh
+        docker tag <CONTAINER_ID> heritier004/ea-project:<IMAGE_NAME>
+    ```
+
+    Alternatively when building an image use the tag flag:
+
+    ```sh
+        docker build -t heritier004/ea-project:<IMAGE_NAME> <DOCKERFILE_DIR>
+    ```
+
+3. Push the tagged image:
+
+    ```sh
+        docker push <IMAGE_TAG>
+    ```
+
 
 ## Movie Rating Portal
  
