@@ -30,6 +30,7 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8888
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -69,3 +70,46 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8761
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "api-gateway"
+spec:
+  selector:
+    matchLabels:
+      app: "api-gateway"
+  template:
+    metadata:
+      labels:
+        app: "api-gateway"
+    spec:
+      containers:
+        - name: "api-gateway-image"
+          image: "docker.io/heritier004/ea-project:api-gateway"
+          imagePullPolicy: "Always"
+          args: ["--spring.profiles.active=k8s"]
+          ports:
+            - containerPort: 4848
+      initContainers:
+        - name: "config-server"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: "service-discovery"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup service-discovery.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for service-discovery; sleep 2; done" ]
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "api-gateway"
+spec:
+  type: NodePort
+  selector:
+    app: "api-gateway"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4848

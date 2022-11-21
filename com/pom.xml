@@ -6,6 +6,7 @@
 	<modules>
 		<module>config-server</module>
         <module>service-discovery</module>
+        <module>api-gateway</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

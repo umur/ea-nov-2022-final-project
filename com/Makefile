@@ -20,3 +20,12 @@ service_discovery:
 
 service_discovery_push:
 	docker push docker.io/heritier004/ea-project:service-discovery
+
+api_gateway_image:
+	docker build -t docker.io/heritier004/ea-project:api-gateway ./api-gateway
+
+api_gateway_discovery:
+	docker run --rm -d -it -p 4848:4848 --name api-gateway --network=group-1-amdb-project docker.io/heritier004/ea-project:api-gateway
+
+api_gateway_push:
+	docker push docker.io/heritier004/ea-project:api-gateway
