@@ -29,6 +29,13 @@ All container images must be pushed to docker hub repository using:
         docker push <IMAGE_TAG>
     ```
 
+## Service Discovery
+
+- To launch service discovery dashboard:
+
+    ```sh
+        minikube service service-discovery --url
+    ```
 
 ## Movie Rating Portal
  
