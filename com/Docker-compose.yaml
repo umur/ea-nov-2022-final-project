@@ -1,0 +1,13 @@
+version: "3.9"
+networks:
+  group-1-amdb-project:
+    external: true
+services:
+  users-service:
+    container_name: "users-service"
+    build: ./users
+    ports:
+      - "8181:8080"
+    image: "docker.io/heritier004/ea-project:users-service"
+    networks:
+      - "group-1-amdb-project"
