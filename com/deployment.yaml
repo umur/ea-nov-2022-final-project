@@ -51,6 +51,10 @@ spec:
           args: ["--spring.profiles.active=k8s"]
           ports:
             - containerPort: 8761
+      initContainers:
+        - name: "config-server"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
 
 ---
 apiVersion: v1
