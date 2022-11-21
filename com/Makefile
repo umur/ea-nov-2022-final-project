@@ -24,6 +24,24 @@ service_discovery:
 service_discovery_push:
 	docker push docker.io/heritier004/ea-project:service-discovery
 
+push_config_server:
+	docker push docker.io/heritier004/ea-project:config-server
+db_image:
+
+	docker pull postgress
+
+users_db:
+	docker run --name users-db-server -d --rm -it -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5422:5432 --network=group-1-amdb-project  postgres
+
+users_image:
+	docker build -t docker.io/heritier004/ea-project:users-service ./users
+
+push_users_image:
+	docker push docker.io/heritier004/ea-project:users-service
+
+users:
+	docker run --rm -d -it -p 8282:8080 --name users-service --network=group-1-amdb-project docker.io/heritier004/ea-project:users-service
+
 api_gateway_image:
 	docker build -t docker.io/heritier004/ea-project:api-gateway ./api-gateway
 
