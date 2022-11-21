@@ -9,5 +9,7 @@ services:
     ports:
       - "8181:8080"
     image: "docker.io/heritier004/ea-project:users-service"
+    command:
+      - "--spring.profiles.active=docker"
     networks:
       - "group-1-amdb-project"
