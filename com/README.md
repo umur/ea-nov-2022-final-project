@@ -108,4 +108,7 @@ Your project must have
     
 * Plagiarism is a very serious thing in all American academic institutions and is guarded against vigilantly by every professor.
  
+## Kubernetes Service DNS (Internal)
 
+	1. localhost (minikube): host.minikube.internal
+	2. config-server: config-server.default.svc.cluster.local
