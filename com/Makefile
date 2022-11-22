@@ -36,11 +36,11 @@ users_db:
 users_image:
 	docker build -t docker.io/heritier004/ea-project:users-service ./users
 
-push_users_image:
+users_image_push:
 	docker push docker.io/heritier004/ea-project:users-service
 
 users:
-	docker run --rm -d -it -p 8282:8080 --name users-service --network=group-1-amdb-project docker.io/heritier004/ea-project:users-service
+	docker run --rm -d -it -p 8181:8181 --name users-service --network=group-1-amdb-project docker.io/heritier004/ea-project:users-service
 
 api_gateway_image:
 	docker build -t docker.io/heritier004/ea-project:api-gateway ./api-gateway

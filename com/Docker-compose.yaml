@@ -3,11 +3,10 @@ networks:
   group-1-amdb-project:
     external: true
 services:
-  users-db-server:
-    container_name: "users-db-server"
-    image: postgres
-    expose:
-      - 5432
+  users-service:
+    container_name: "users-service"
+    image: "docker.io/heritier004/ea-project:users-service"
+    entrypoint: sh -c "/wait && java -jar users-app.jar --spring.profiles.active=docker"
     networks:
       - "group-1-amdb-project"
     environment:

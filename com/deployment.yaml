@@ -16,7 +16,7 @@ spec:
         - name: "users-service-image"
           image: "docker.io/heritier004/ea-project:users-service"
           args: ["--spring.profiles.active=k8s"]
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: "Always"
           ports:
             - containerPort: 8888
 ---
