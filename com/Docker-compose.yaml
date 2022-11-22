@@ -3,13 +3,64 @@ networks:
   group-1-amdb-project:
     external: true
 services:
-  users-service:
-    container_name: "users-service"
-    build: ./users
-    ports:
-      - "8181:8080"
-    image: "docker.io/heritier004/ea-project:users-service"
-    command:
-      - "--spring.profiles.active=docker"
+  users-db-server:
+    container_name: "users-db-server"
+    image: postgres
+    expose:
+      - 5432
     networks:
       - "group-1-amdb-project"
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_DB: "users-db"
+  config-server:
+    container_name: config-server
+    image: "docker.io/heritier004/ea-project:config-server"
+    networks:
+      - "group-1-amdb-project"
+    expose:
+      - 8888
+    depends_on:
+      - users-db-server
+    entrypoint: sh -c "/wait && java -jar config-server-app.jar"
+    environment:
+      - WAIT_HOSTS=users-db-server:5432
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+
+  service-discovery:
+    image: "docker.io/heritier004/ea-project:service-discovery"
+    container_name: "service-discovery"
+    ports:
+      - "8761:8761"
+    networks:
+      - "group-1-amdb-project"
+    expose:
+      - 8761
+    depends_on:
+      - config-server
+    entrypoint: sh -c "/wait && java -jar service-discovery-app.jar --spring.profiles.active=docker"
+    environment:
+      - WAIT_HOSTS=config-server:8888
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+
+  api-gateway:
+    container_name: "api-gateway"
+    image: "docker.io/heritier004/ea-project:api-gateway"
+    ports:
+      - "4848:4848"
+    networks:
+      - "group-1-amdb-project"
+    depends_on:
+      - service-discovery
+      - config-server
+    entrypoint: sh -c "/wait && java -jar api-gateway-app.jar --spring.profiles.active=docker"
+    environment:
+      - WAIT_HOSTS=service-discovery:8761, config-server:8888
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30

@@ -1,5 +1,8 @@
 all: network
 
+images: config_server_image service_discovery_image api_gateway_image
+images_push: config_server_push service_discovery_push api_gateway_push
+
 network:
 	docker network create group-1-amdb-project
 
