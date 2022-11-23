@@ -3,6 +3,7 @@ package amdb.com.user.service;
 import amdb.com.user.entity.Users;
 import amdb.com.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +27,9 @@ public class UserService {
 
     public void deleteUserById(int id){
         this.userRepository.deleteById(id);
+    }
+
+    public String hashPassword(String p) {
+        return BCrypt.hashpw(p, BCrypt.gensalt(12));
     }
 }

@@ -16,8 +16,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<Users>> getUsers(){
-        return new ResponseEntity<>(this.userService.getUsers(), HttpStatus.OK);
+    public ResponseEntity<List<Users>> getUsers() {
+        List<Users> users = this.userService.getUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -25,8 +26,8 @@ public class UserController {
         return new ResponseEntity<>(this.userService.getUserById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody Users user){
+    @PutMapping
+    public ResponseEntity<String> addUser(@RequestBody Users user) {
         Users u = this.userService.addUser(user);
         if(u != null){
             return new ResponseEntity<>("successsfully added user", HttpStatus.OK);
@@ -36,14 +37,10 @@ public class UserController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<String> updateUser(@RequestBody Users user){
-        return this.addUser(user);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable int id){
         this.userService.deleteUserById(id);
+        //send movies
         return new ResponseEntity<>("successsfully added user", HttpStatus.OK);
     }
 }
