@@ -31,7 +31,7 @@ db_image:
 	docker pull postgress
 
 users_db:
-	docker run --name users-db-server -d --rm -it -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5422:5432 --network=group-1-amdb-project  postgres
+	docker run --name users-db-server -d --rm -it -e POSTGRES_DB=users-db -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5422:5432 --network=group-1-amdb-project  postgres
 
 users_image:
 	docker build -t docker.io/heritier004/ea-project:users-service ./users

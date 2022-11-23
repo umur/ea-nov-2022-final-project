@@ -1,6 +1,6 @@
-package amdb.com.user.repository;
+package imdb.com.user.repository;
 
-import amdb.com.user.entity.Users;
+import imdb.com.user.entity.Users;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

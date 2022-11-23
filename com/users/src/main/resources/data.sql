@@ -1,3 +1,3 @@
-INSERT INTO users (id, name, age) values (1, 'user-one', 25)
-INSERT INTO users (id, name, age) values (2, 'user-two', 30)
-INSERT INTO users (id, name, age) values (3, 'user-three', 15)
+INSERT INTO users (id, name, surname, username, password, owner) values (1, 'Jane', 'Doe','guest-one', '$2a$12$wLZHj6GIAsIY4Kyq790PW.urNKchhb1Q82b2txQWRIaNameQbi6r2', false)
+INSERT INTO users (id, name, surname, username, password, owner) values (2, 'Harry', 'Potter','guest-two', '$2a$12$wLZHj6GIAsIY4Kyq790PW.urNKchhb1Q82b2txQWRIaNameQbi6r2', false)
+INSERT INTO users (id, name, surname, username, password, owner) values (3, 'Lara', 'Croft','owner-one', '$2a$12$wLZHj6GIAsIY4Kyq790PW.urNKchhb1Q82b2txQWRIaNameQbi6r2', true)

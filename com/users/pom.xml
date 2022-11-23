@@ -40,6 +40,22 @@
         </dependency>
 
         <dependency>
+            <scope>test</scope>
+            <artifactId>spring-rabbit-test</artifactId>
+            <groupId>org.springframework.amqp</groupId>
+        </dependency>
+
+        <dependency>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <groupId>org.springframework.boot</groupId>
+        </dependency>
+
+        <dependency>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <groupId>org.springframework.boot</groupId>
+        </dependency>
+
+        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>

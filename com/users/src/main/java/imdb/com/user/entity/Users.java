@@ -1,4 +1,4 @@
-package amdb.com.user.entity;
+package imdb.com.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import imdb.com.user.entity.types.Address;
