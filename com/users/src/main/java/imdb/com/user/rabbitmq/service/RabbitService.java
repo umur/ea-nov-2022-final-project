@@ -10,9 +10,13 @@ import org.springframework.stereotype.Service;
 public class RabbitService {
     private final RabbitTemplate rabbitTemplate;
     final private Queue moviesQueue;
+    final private Queue seriesQueue;
 
     public void sendMoviessMessage(String message) {
         rabbitTemplate.convertAndSend(moviesQueue.getName(), message);
+    }
+    public void sendSeriesMessage(String message) {
+        rabbitTemplate.convertAndSend(seriesQueue.getName(), message);
     }
 
 }

@@ -43,6 +43,7 @@ public class UserController {
         this.userService.deleteUserById(id);
 
         this.rabbitService.sendMoviessMessage("delete " + id);
+        this.rabbitService.sendSeriesMessage("delete " + id);
         return new ResponseEntity<>("successsfully deleted user", HttpStatus.OK);
     }
 }

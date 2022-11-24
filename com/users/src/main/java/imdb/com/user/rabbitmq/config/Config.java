@@ -25,4 +25,19 @@ public class Config {
         return BindingBuilder.bind(moviesQueue).to(moviesExchange);
     }
 
+    @Bean
+    public Queue seriesQueue() {
+        return new Queue("series-queue", true);
+    }
+
+    @Bean
+    FanoutExchange seriesExchange() {
+        return new FanoutExchange("series-exchange");
+    }
+
+    @Bean
+    Binding seriesQueueBinder(Queue seriesQueue, FanoutExchange seriesExchange) {
+        return BindingBuilder.bind(seriesQueue).to(seriesExchange);
+    }
+
 }
