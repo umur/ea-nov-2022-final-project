@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface SeriesRepository extends CrudRepository<Series, Integer> {
     List<Series> findAll();
-//    List<Series> findAllByOwnerid(Integer ownerId);
+    List<Series> findAllByOwnerid(Integer ownerId);
 
 }

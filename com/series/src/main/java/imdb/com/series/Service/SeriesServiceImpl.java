@@ -4,6 +4,7 @@ import imdb.com.series.Entity.Series;
 import imdb.com.series.Repository.SeriesRepository;
 import imdb.com.series.Repository.SeriesViewRepository;
 import imdb.com.series.rabbitmq.Publisher.service.RabbitService;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,14 @@ public class SeriesServiceImpl implements SeriesService{
 
     @Override
     public List<Series> findAllSeriesByUserId(Integer userId) {
-        //return seriesViewRepository.findAllSeriesByUserId(userId);
-        return null;
+        return seriesViewRepository.findAllSeriesByUserId(userId);
+//        return null;
     }
 
     @Override
     public List<Series> findAllSeriesByOwnerid(Integer ownerId) {
-//        return seriesRepository.findAllByOwnerid(ownerId);
-        return null;
+        return seriesRepository.findAllByOwnerid(ownerId);
+//        return null;
     }
 
     @Override
@@ -46,22 +47,23 @@ public class SeriesServiceImpl implements SeriesService{
 
     @Override
     public void deleteSeriesByOwnerId(Integer ownerId) {
-//        List<Series> seriesList= seriesRepository.findAllByOwnerid(ownerId);
-//        seriesList.forEach(series -> {
-//            seriesViewRepository.deleteAllBySeriesid(series.getId());
-//            seriesRepository.deleteById(series.getId());
-//            this.rabbitService.sendCommentMessage("delete " + series.getId());
-//        });
+        List<Series> seriesList= seriesRepository.findAllByOwnerid(ownerId);
+        seriesList.forEach(series -> {
+            seriesViewRepository.deleteAllBySeriesid(series.getId());
+            seriesRepository.deleteById(series.getId());
+            this.rabbitService.sendCommentMessage("delete " + series.getId());
+        });
     }
 
+    @RabbitListener(queues = {"hello-queue-2"})
     @Override
     public void deleteAllByUserid(Integer userId) {
-//        seriesViewRepository.deleteAllByUserid(userId);
+        seriesViewRepository.deleteAllByUserid(userId);
     }
 
     @Override
     public void deleteAllBySeriesid(Integer seriesId) {
-//        seriesViewRepository.deleteAllBySeriesid(seriesId);
+        seriesViewRepository.deleteAllBySeriesid(seriesId);
     }
 
     @Override
