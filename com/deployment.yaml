@@ -200,3 +200,43 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8181
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "series-service"
+spec:
+  selector:
+    matchLabels:
+      app: "series-service"
+  template:
+    metadata:
+      labels:
+        app: "series-service"
+    spec:
+      containers:
+        - name: "series-service-image"
+          image: "docker.io/heritier004/ea-project:series-service"
+          args: [ "--spring.profiles.active=k8s" ]
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8585
+      initContainers:
+        - name: "config-server"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: "service-discovery"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup service-discovery.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for service-discovery; sleep 2; done" ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "series-service"
+spec:
+  selector:
+    app: "series-service"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8585

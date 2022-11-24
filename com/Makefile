@@ -27,7 +27,6 @@ service_discovery_push:
 push_config_server:
 	docker push docker.io/heritier004/ea-project:config-server
 db_image:
-
 	docker pull postgress
 
 users_db:
@@ -39,9 +38,6 @@ users_image:
 users_image_push:
 	docker push docker.io/heritier004/ea-project:users-service
 
-users:
-	docker run --rm -d -it -p 8181:8181 --name users-service --network=group-1-amdb-project docker.io/heritier004/ea-project:users-service
-
 api_gateway_image:
 	docker build -t docker.io/heritier004/ea-project:api-gateway ./api-gateway
 
@@ -50,3 +46,14 @@ api_gateway_discovery:
 
 api_gateway_push:
 	docker push docker.io/heritier004/ea-project:api-gateway
+
+series_db:
+	docker run --name series-db-server -d --rm -it -e POSTGRES_DB=series-db -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5433:5432 --network=group-1-amdb-project  postgres
+
+series_image:
+	docker build --no-cache -t docker.io/heritier004/ea-project:series-service ./series
+
+series_image_push:
+	docker push docker.io/heritier004/ea-project:series-service
+
+

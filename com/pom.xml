@@ -8,7 +8,8 @@
         <module>service-discovery</module>
         <module>api-gateway</module>
 		<module>users</module>
-	</modules>
+        <module>series</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
