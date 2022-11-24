@@ -100,7 +100,7 @@ services:
       - WAIT_HOST_CONNECT_TIMEOUT=30
   series-service:
     container_name: "series-service"
-    image: "docker.io/heritier004/ea-project:series-service"
+    image: "docker.io/heritier004/ea-project:series-service-local"
     networks:
       - "group-1-amdb-project"
     depends_on:

@@ -53,6 +53,9 @@ series_db:
 series_image:
 	docker build --no-cache -t docker.io/heritier004/ea-project:series-service ./series
 
+series_image_local:
+	docker build --no-cache -t docker.io/heritier004/ea-project:series-service-local ./series
+
 series_image_push:
 	docker push docker.io/heritier004/ea-project:series-service
 
