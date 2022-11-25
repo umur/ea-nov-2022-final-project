@@ -240,3 +240,43 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8585
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "comments-service"
+spec:
+  selector:
+    matchLabels:
+      app: "comments-service"
+  template:
+    metadata:
+      labels:
+        app: "comments-service"
+    spec:
+      containers:
+        - name: "comments-service-image"
+          image: "docker.io/heritier004/ea-project:comments-service"
+          args: [ "--spring.profiles.active=k8s" ]
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8585
+      initContainers:
+        - name: "config-server"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup config-server.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for config-server; sleep 2; done" ]
+        - name: "service-discovery"
+          image: busybox:1.28
+          command: [ 'sh', '-c', "until nslookup service-discovery.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for service-discovery; sleep 2; done" ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "comments-service"
+spec:
+  selector:
+    app: "comments-service"
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8585

@@ -59,4 +59,15 @@ series_image_local:
 series_image_push:
 	docker push docker.io/heritier004/ea-project:series-service
 
+comments_db:
+	docker run --name comments-db-server -d --rm -it -e POSTGRES_DB=comments-db -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5444:5432 --network=group-1-amdb-project  postgres
+
+comments_image:
+	docker build --no-cache -t docker.io/heritier004/ea-project:comments-service ./comments
+
+comments_image_local:
+	docker build --no-cache -t docker.io/heritier004/ea-project:comments-service-local ./comments
+
+comments_image_push:
+	docker push docker.io/heritier004/ea-project:comments-service
 

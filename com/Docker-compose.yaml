@@ -25,6 +25,17 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_USERNAME: "postgres"
       POSTGRES_DB: "series-db"
+  comments-db-server:
+    container_name: "comments-db-server"
+    image: postgres
+    expose:
+      - 5432
+    networks:
+      - "group-1-amdb-project"
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USERNAME: "postgres"
+      POSTGRES_DB: "comments-db"
   config-server:
     container_name: config-server
     image: "docker.io/heritier004/ea-project:config-server"
@@ -107,6 +118,20 @@ services:
       - service-discovery
       - config-server
     entrypoint: sh -c "/wait && java -jar series-app.jar --spring.profiles.active=docker"
+    environment:
+      - WAIT_HOSTS=service-discovery:8761, config-server:8888
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+  comments-service:
+    container_name: "comments-service"
+    image: "docker.io/heritier004/ea-project:comments-service-local"
+    networks:
+      - "group-1-amdb-project"
+    depends_on:
+      - service-discovery
+      - config-server
+    entrypoint: sh -c "/wait && java -jar comments-app.jar --spring.profiles.active=docker"
     environment:
       - WAIT_HOSTS=service-discovery:8761, config-server:8888
       - WAIT_HOSTS_TIMEOUT=300
