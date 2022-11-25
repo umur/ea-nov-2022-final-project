@@ -20,4 +20,7 @@ public interface FavouriteRepository extends CrudRepository<Favourite, Integer> 
 
     void deleteById(Integer id);
 
+    @Query(value = "select f from Favourite f where f.userid=?1")
+    List<Favourite> findFavouriteUserId(Integer userId);
+
 }

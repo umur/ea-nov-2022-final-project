@@ -9,5 +9,6 @@ public interface CommentService {
 
     List<Comment> findAllComment();
     void deleteCommentById(Integer id);
+    void deleteCommentByUserId(String id);
 
 }

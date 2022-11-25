@@ -12,7 +12,8 @@ public interface SeriesService {
 
     //Test ONLY!!!!!
     List<Favourite> findAllFavourites();
-
     void deleteFavouriteById(Integer id);
+
+    void deleteFavouriteByUserId(String id);
 
 }

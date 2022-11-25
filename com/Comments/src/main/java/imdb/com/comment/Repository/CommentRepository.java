@@ -15,4 +15,6 @@ public interface CommentRepository extends CrudRepository<Comment, Integer> {
     List<Comment> findAll();
     void deleteById(Integer id);
 
+    @Query(value = "select c from Comment c where c.userid=?1")
+    List<Comment> findCommentUserId(Integer userId);
 }

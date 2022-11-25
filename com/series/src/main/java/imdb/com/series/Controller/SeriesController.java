@@ -18,7 +18,6 @@ public class SeriesController {
 
     private RabbitService rabbitService;
 
-
     @GetMapping
     public List<Series> findAllSeries() {
         return seriesService.findAllSeries();
@@ -29,18 +28,9 @@ public class SeriesController {
         return seriesService.findFavouriteSeriesByUserId(userId);
     }
 
-    @DeleteMapping("/favourites/{userId}")
-    public String deleteFavouritesByUserId(@PathVariable Integer userId){
-        this.seriesService.findFavouriteSeriesByUserId(userId).forEach(f -> {
-            this.seriesService.deleteFavouriteById(f.getId());
-        });
-        return "successfully deleted favourites for user: " + userId;
-    }
-
     //ONLY FOR TESTING !!!
     @GetMapping("/favourites")
     public List<Favourite> getFavourites(){
-
         return this.seriesService.findAllFavourites();
     }
 

@@ -6,6 +6,7 @@ import imdb.com.series.Repository.FavouriteRepository;
 import imdb.com.series.Repository.SeriesRepository;
 import imdb.com.series.rabbitmq.Publisher.service.RabbitService;
 import lombok.AllArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,14 @@ public class SeriesServiceImpl implements SeriesService {
     public void deleteFavouriteById(Integer id) {
         this.favouriteRepository.deleteById(id);
     }
+    @RabbitListener(queues = {"series-queue"})
+    @Override
+    public void deleteFavouriteByUserId(String id) {
+        Integer userId= Integer.parseInt(id.split(" ")[1]);
+        favouriteRepository.findFavouriteUserId(userId).forEach(favourite -> {
+            favouriteRepository.deleteById(favourite.getId());
+        });
+        this.rabbitService.sendCommentMessage("delete " + userId);
 
-    //    @RabbitListener()
+    }
 }
