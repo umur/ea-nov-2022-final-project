@@ -2,6 +2,7 @@ all: network
 
 images: config_server_image service_discovery_image api_gateway_image
 images_push: config_server_push service_discovery_push api_gateway_push
+dbs: users_db series_db comments_db movies_db
 
 network:
 	docker network create group-1-amdb-project
@@ -70,4 +71,15 @@ comments_image_local:
 
 comments_image_push:
 	docker push docker.io/heritier004/ea-project:comments-service
+movies_db:
+	docker run --name movies-db-server -d --rm -it -e POSTGRES_DB=movies-db -e POSTGRES_PASSWORD=1234 -e POSTGRES_USERNAME=postgres -p 5455:5432 --network=group-1-amdb-project  postgres
+
+movies_image:
+	docker build --no-cache -t docker.io/heritier004/ea-project:movies-service ./movies
+
+movies_image_local:
+	docker build --no-cache -t docker.io/heritier004/ea-project:movies-service-local ./movies
+
+movies_image_push:
+	docker push docker.io/heritier004/ea-project:movies-service
 

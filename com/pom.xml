@@ -10,7 +10,8 @@
 		<module>users</module>
         <module>series</module>
         <module>Comments</module>
-    </modules>
+		<module>Movies</module>
+	</modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
