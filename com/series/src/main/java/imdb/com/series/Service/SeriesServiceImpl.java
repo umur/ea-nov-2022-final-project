@@ -1,26 +1,24 @@
 package imdb.com.series.Service;
 
+import imdb.com.series.Entity.Favourite;
 import imdb.com.series.Entity.Series;
+import imdb.com.series.Repository.FavouriteRepository;
 import imdb.com.series.Repository.SeriesRepository;
-import imdb.com.series.Repository.SeriesViewRepository;
 import imdb.com.series.rabbitmq.Publisher.service.RabbitService;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SeriesServiceImpl implements SeriesService{
+@AllArgsConstructor
+public class SeriesServiceImpl implements SeriesService {
 
 
-    @Autowired
     private RabbitService rabbitService;
-    @Autowired
-    private SeriesRepository seriesRepository;
 
-    @Autowired
-    private SeriesViewRepository seriesViewRepository;
+    private FavouriteRepository favouriteRepository;
+    private SeriesRepository seriesRepository;
 
 
     @Override
@@ -28,56 +26,21 @@ public class SeriesServiceImpl implements SeriesService{
         return seriesRepository.findAll();
     }
 
+
     @Override
-    public List<Series> findAllSeriesByUserId(Integer userId) {
-        return seriesViewRepository.findAllSeriesByUserId(userId);
-//        return null;
+    public List<Series> findFavouriteSeriesByUserId(Integer userId) {
+        return this.favouriteRepository.findFavouriteSeriesByUserId(userId);
     }
 
     @Override
-    public List<Series> findAllSeriesByOwnerid(Integer ownerId) {
-        return seriesRepository.findAllByOwnerid(ownerId);
-//        return null;
+    public List<Favourite> findAllFavourites() {
+        return favouriteRepository.findAll();
     }
 
     @Override
-    public Series findAllSeriesById(Integer seriesId) {
-        return seriesRepository.findById(seriesId).get();
+    public void deleteFavouriteById(Integer id) {
+        this.favouriteRepository.deleteById(id);
     }
 
-    @Override
-    public void deleteSeriesByOwnerId(Integer ownerId) {
-        List<Series> seriesList= seriesRepository.findAllByOwnerid(ownerId);
-        seriesList.forEach(series -> {
-            seriesViewRepository.deleteAllBySeriesid(series.getId());
-            seriesRepository.deleteById(series.getId());
-            this.rabbitService.sendCommentMessage("delete " + series.getId());
-        });
-    }
-
-    @RabbitListener(queues = {"hello-queue-2"})
-    @Override
-    public void deleteAllByUserid(Integer userId) {
-        seriesViewRepository.deleteAllByUserid(userId);
-    }
-
-    @Override
-    public void deleteAllBySeriesid(Integer seriesId) {
-        seriesViewRepository.deleteAllBySeriesid(seriesId);
-    }
-
-    @Override
-    public void saveSeries(Series series) {
-        seriesRepository.save(series);
-    }
-
-    @Override
-    public void updateSeries(Series series) {
-        seriesRepository.save(series);
-    }
-
-    @Override
-    public void deleteSeriesById(Integer seriesId) {
-        seriesRepository.deleteById(seriesId);
-    }
+    //    @RabbitListener()
 }
