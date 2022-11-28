@@ -1,0 +1,21 @@
+keycloak:
+  realm: movie-app
+  auth-server-url: http://localhost:8080
+  resource: movie-app
+  public-client: true
+  bearer-only: true
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_management
+    username: mughrabi
+    password: 123
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update

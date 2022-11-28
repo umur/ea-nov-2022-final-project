@@ -1,0 +1,95 @@
+version: '3'
+services:
+  discovery:
+    image: barabatta/service-registery
+    ports:
+      - 8761:8761
+  config:
+    image: barabatta/cloud-config
+    volumes:
+      - ./config-data:/var/config-data
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.cloud.config.server.native.searchLocations=/var/config-data
+    depends_on:
+      - discovery
+    ports:
+      - 9296:9296
+  cloud-gateway:
+    image: barabatta/cloud-gateway
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+    depends_on:
+      - discovery
+      - config
+    ports:
+      - 9191:9191
+  comment-service:
+    image: barabatta/comment-service
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.profiles.active=production
+    restart: on-failure
+    depends_on:
+      - discovery
+      - config
+      - cloud-gateway
+    ports:
+      - 8083:8083
+  digital-videos:
+    image: barabatta/digital-videos
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.profiles.active=production
+    restart: on-failure
+    depends_on:
+      - discovery
+      - config
+      - cloud-gateway
+    ports:
+      - 8080:8080
+
+  movie-service:
+    image: barabatta/movies-service
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.profiles.active=production
+    restart: on-failure
+    depends_on:
+      - discovery
+      - config
+      - cloud-gateway
+    ports:
+      - 8082:8082
+
+  rating-service:
+    image: barabatta/rating-service
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.profiles.active=production
+    restart: on-failure
+    depends_on:
+      - discovery
+      - config
+      - cloud-gateway
+    ports:
+      - 8084:8084
+  series-service:
+    image: barabatta/series-service
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://localhost:8761/eureka
+        -Dspring.profiles.active=production
+    restart: on-failure
+    depends_on:
+      - discovery
+      - config
+      - cloud-gateway
+    ports:
+      - 8081:8081
