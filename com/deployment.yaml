@@ -48,6 +48,11 @@ spec:
       containers:
         - name: "service-discovery-image"
           image: "docker.io/heritier004/ea-project:service-discovery"
+          resources:
+            requests:
+              memory: "500Mi"
+            limits:
+              memory: "800Mi"
           imagePullPolicy: "Always"
           args: [ "--spring.profiles.active=k8s" ]
           ports:
