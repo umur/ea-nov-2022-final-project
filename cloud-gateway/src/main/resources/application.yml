@@ -1,0 +1,57 @@
+server:
+  port: 9191
+
+spring:
+  application:
+      name: API-GATEWAY
+      zipkin:
+        base-url: http://localhost:9411/
+      logging.logstash:
+        enabled: true
+        url: 192.168.99.100:5000
+
+
+  spring:
+    cloud:
+      gateway:
+        discovery:
+          locator:
+            - enabled=true
+            - lower-case-service-id=true
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: USER-SERVICE
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/user/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: USER-SERVICE
+#                fallbackuri: forward:/userServiceFallBack
+#        - id: DEPERATMENT-SERVICE
+#          uri: lb://DEPARTMENT-SERVICE
+#          predicates:
+#            - Path=/department/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: DEPARTMENT-SERVICE
+#                fallbackuri: forward:/departmentServiceFallBack
+#hystrix Circuit Breaker
+hystrix:
+  command:
+    fallbackcommand:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+
+#Actuator config
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream

@@ -1,0 +1,9 @@
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/repository/UserRepository.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/entity/User.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/service/UserService.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/rest/dto/UserDTO.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/repository/jpa/UserRepositoryJPAImp.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/UserManagementServiceApplication.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/repository/jpa/UserRepositoryJPA.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/rest/UserController.java
+/Users/mughrabi/java/my-spring-code-sample/ea-nov-2022-final-project/user-management-service/src/main/java/com/example/usermanagementservice/configuration/SecurityConfig.java
